@@ -1,98 +1,113 @@
-# 🏀 Basketball Chatbot — MVP ++
+# 🏀 Basketball Chatbot
 
-Un chatbot **fonctionnel** qui permet :  
-- d’**expliquer des règles de basket** (via un petit système de **RAG** sur des fichiers Markdown sourcés),  
-- de fournir des **stats réelles de joueurs** (via l’API [balldontlie.io](https://balldontlie.io)),  
-- de structurer les réponses avec un **LLM** (modèle HuggingFace, support LoRA optionnel).  
-
-Stack : **FastAPI** (backend) + **React/Vite** (frontend).
+Un chatbot **spécialisé dans le basketball**, capable d’expliquer les **règles officielles** et de répondre à des questions grâce à un système de **RAG (Retrieval Augmented Generation)** + **LLM local (Mistral via Ollama)**.
 
 ---
 
-## 🚀 Lancer le projet
+## 🚀 Stack technique
+
+- **Backend** : FastAPI (Python)
+- **Frontend** : React (Vite)
+- **LLM** : [Ollama](https://ollama.com) avec modèle **Mistral** (par défaut)
+- **Retriever** : système simple basé sur des fichiers Markdown (`backend/data/rules/`)
+- **Streaming** : réponses générées en continu comme ChatGPT
+
+---
+
+## 📂 Arborescence simplifiée
+
+```
+backend/
+  ├── app.py                # Entrée FastAPI
+  ├── core/config.py        # Configuration & choix du provider
+  ├── services/             # Retriever & providers (Anthropic, Mistral API, Ollama)
+  ├── data/rules/           # Fichiers .md (base de connaissances)
+  │     ├── 00_suggestions.md
+  │     ├── 01_temps_de_jeu.md
+  │     ├── 02_regles_deplacement.md
+  │     └── ...
+frontend/
+  ├── src/components/ChatBox.jsx   # UI principale (chat streaming)
+  ├── src/api/client.js            # Requêtes API (stream)
+```
+
+---
+
+## 🔧 Installation
 
 ### 1) Backend
+
 ```bash
 cd backend
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# Exemple avec un modèle léger (rapide CPU)
-$env:MODEL_ID="Qwen/Qwen2.5-0.5B-Instruct"
-$env:USE_LORA="0"
+# Lancer l’API
 uvicorn app:app --reload --port 8000
 ```
 
-> ⚠️ Si balldontlie te fournit une clé, ajoute-la :  
-> `setx BALLDONTLIE_API_KEY "ta_clef"`
-
 ### 2) Frontend
+
 ```bash
-cd ../frontend
-npm i
+cd frontend
+npm install
 npm run dev
 ```
 
 - Frontend: http://localhost:5173  
-- Backend: http://localhost:8000  
+- Backend: http://localhost:8000
 
-> Le proxy Vite redirige `/api/*` → backend.
+Le proxy Vite redirige `/api/*` → backend.
+
+---
+
+## 🤖 Choix du LLM
+
+Le provider est configuré via la variable d’environnement **LLM_PROVIDER** dans `backend/.env` :
+
+- `ollama_mistral` → utilise Ollama local avec modèle **mistral**
+- `mistral_api` → Mistral hébergé (API payante)
+- `anthropic` → Claude (API payante)
+
+### Exemple `.env` minimal pour Ollama
+
+```
+LLM_PROVIDER=ollama_mistral
+OLLAMA_URL=http://localhost:11434
+OLLAMA_MODEL=mistral
+
+RETRIEVER_MAX_CHARS_PER_CHUNK=400
+```
 
 ---
 
 ## ✨ Fonctionnalités actuelles
 
-- **Intent detection** simple (`rules_explanation`, `player_stats`, `small_talk`, `fallback`).  
-- **Règles de jeu** : base locale en Markdown → indexée avec un mini moteur de recherche sémantique (RAG).  
-- **Stats joueurs** : via `balldontlie` (nom + saison → moyennes, derniers matchs).  
-  - Gestion des erreurs (401 si API key requise, 429 si rate limit, etc.)  
-  - Extraction automatique du nom et de l’année dans le prompt.  
-- **LLM HuggingFace** : génération de réponses structurées.  
-  - Prompt engineering adapté aux règles vs aux stats.  
-  - Support **LoRA** (pour styliser la réponse) activable avec `USE_LORA=1`.  
-- **Robustesse** : pas de 500, toutes les erreurs sont capturées et renvoient une réponse lisible au client.  
+- Répond aux questions sur les **règles du basket**
+- Base de règles en fichiers `.md` (retriever local)
+- Réponses **streaming** (affichées au fur et à mesure)
+- UI : 
+  - ChatBox centrée et élargie (90% largeur écran, max 1100px)
+  - Messages utilisateur à **droite**
+  - Messages chatbot à **gauche**
+  - Suggestions cliquables
+  - Police homogène et responsive (plus lisible)
 
 ---
 
-## 🛠️ Endpoints
+## 📌 À faire ensuite
 
-- `GET /health` → `{ ok: true }`  
-- `POST /chat` → `{ message }` → `{ reply, intent }`
-
----
-
-## 📂 Structure
-
-```
-backend/
-  app.py              # routes FastAPI, orchestration intents → RAG ou balldontlie
-  intents.py          # détection intent + extraction joueur/saison
-  adapters/
-    balldontlie.py    # wrapper API robuste (clé optionnelle)
-  rag/
-    indexer.py        # build de l’index local (Markdown rules)
-    service.py        # recherche + formatage contextuel
-  llm/
-    client.py         # wrapper HuggingFace (LoRA optionnel)
-    prompts.py        # templates prompts (rules vs stats)
-frontend/
-  vite.config.js      # proxy /api → backend
-  src/api/client.js   # appels fetch /api/chat
-  src/…               # UI React
-```
+- Ajouter plus de règles et de contenus dans `backend/data/rules`
+- Améliorer la présentation UI (historique, avatars, thèmes)
+- Héberger le projet en ligne (backend + frontend)
+- Éventuellement activer des providers distants (Mistral API / Anthropic)
 
 ---
 
-## 📈 Prochaines évolutions
+## ⚠️ Note importante : gestion des secrets
 
-- **Cache mémoire** pour balldontlie (éviter les 429, accélérer).  
-- **CI/CD** : GitHub Actions (lint + tests), Dockerfiles, déploiement Render/Railway.  
-- **Tests** : pytest pour `intents`, RAG, balldontlie adapter.  
-- **UX** : historique côté backend, avatars, copier-coller, thèmes.  
-- **I18N** : FR/EN, préférences FIBA/NBA.  
+- Le fichier `.env` **ne doit pas être versionné** (ajouté au `.gitignore`)
+- Fournir un `.env.example` pour partager la structure sans clés sensibles
 
 ---
-
-## 📜 Licence
-MIT  
