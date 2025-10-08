@@ -87,12 +87,6 @@ RETRIEVER_MAX_CHARS_PER_CHUNK=400
 - Répond aux questions sur les **règles du basket**
 - Base de règles en fichiers `.md` (retriever local)
 - Réponses **streaming** (affichées au fur et à mesure)
-- UI : 
-  - ChatBox centrée et élargie (90% largeur écran, max 1100px)
-  - Messages utilisateur à **droite**
-  - Messages chatbot à **gauche**
-  - Suggestions cliquables
-  - Police homogène et responsive (plus lisible)
 
 ---
 
