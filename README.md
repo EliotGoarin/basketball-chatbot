@@ -99,10 +99,12 @@ RETRIEVER_MAX_CHARS_PER_CHUNK=400
 ## 📌 À faire ensuite
 
 - Ajouter plus de règles et de contenus dans `backend/data/rules`
+- Créer d'autres dossiers dans data contenant d'autres informations que les règles. 
+- Connecter àa une API spécialisée en basket (BallDontLie) pour aller chercher les informations mises à jour/actuelles
 - Améliorer la présentation UI (historique, avatars, thèmes)
 - Héberger le projet en ligne (backend + frontend)
 - Éventuellement activer des providers distants (Mistral API / Anthropic)
-
+- Créer des modes pour le chatbot -> différents sports, différents types d'infos (medecin du sport, arbitre, reporter sportif ?).
 ---
 
 ## ⚠️ Note importante : gestion des secrets
