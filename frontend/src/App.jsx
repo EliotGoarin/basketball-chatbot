@@ -4,10 +4,8 @@ import ChatBox from "./components/ChatBox.jsx"
 export default function App(){
   return (
     <div>
-      <h1 style={{marginBottom: 8}}>🏀 Basketball Chatbot (MVP)</h1>
-      <p style={{opacity: .8, marginBottom: 16}}>
-        Essaie <code>explique le goaltending</code> ou <code>stats Wembanyama 2024</code>.
-      </p>
+      <h1 style={{marginBottom: 8}}>ChatBall🏀</h1>
+
       <div className="card">
         <ChatBox />
       </div>

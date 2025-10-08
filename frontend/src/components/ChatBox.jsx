@@ -14,7 +14,6 @@ export default function ChatBox(){
     "Quelle est la différence entre marcher et double dribble ?",
     "Combien de temps dure un match officiel ?",
     "Que vaut un lancer franc ?",
-    "Quelles sont les dimensions du terrain ?",
   ]
 
   // Auto-scroll
@@ -72,7 +71,7 @@ export default function ChatBox(){
   // Tailles responsive via clamp : petites sur petit écran, confortables sur large écran
   const sizes = {
     base: "clamp(0.90rem, 0.6vw + 0.7rem, 1.15rem)",     // texte général ~15–18px
-    msg:  "clamp(0.80rem, 0.7vw + 0.75rem, 1.2rem)",         // texte des messages
+    msg:  "clamp(0.90rem, 0.6vw + 0.7rem, 1.15rem)",         // texte des messages
     btn:  "clamp(0.95rem, 0.5vw + 0.7rem, 1.1rem)",       // boutons
     input:"clamp(0.80rem, 0.6vw + 0.8rem, 1.2rem)",          // input
     label:"clamp(0.8rem, 0.4vw + 0.6rem, 0.95rem)",       // “You / Chatball”
