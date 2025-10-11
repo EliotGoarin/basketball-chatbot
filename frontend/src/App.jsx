@@ -5,7 +5,6 @@ export default function App(){
   return (
     <div>
       <h1 style={{marginBottom: 8}}>ChatBall🏀</h1>
-
       <div className="card">
         <ChatBox />
       </div>

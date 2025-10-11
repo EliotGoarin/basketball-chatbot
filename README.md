@@ -92,7 +92,6 @@ RETRIEVER_MAX_CHARS_PER_CHUNK=400
 
 ## 📌 À faire ensuite
 
-<<<<<<< HEAD
 - Ajouter plus de règles et de contenus dans `backend/data/rules`
 - Créer d'autres dossiers dans data contenant d'autres informations que les règles. 
 - Connecter àa une API spécialisée en basket (BallDontLie) pour aller chercher les informations mises à jour/actuelles
@@ -100,64 +99,16 @@ RETRIEVER_MAX_CHARS_PER_CHUNK=400
 - Héberger le projet en ligne (backend + frontend)
 - Éventuellement activer des providers distants (Mistral API / Anthropic)
 - Créer des modes pour le chatbot -> différents sports, différents types d'infos (medecin du sport, arbitre, reporter sportif ?).
-=======
-- 🟢 1. Améliorations RAG (retriever)
-Passer d’un retriever basique → vectoriel
-Intégrer une base vectorielle (FAISS ou Chroma) pour chercher les passages de règles.
-Utiliser des embeddings multilingues (ex. sentence-transformers).
-Gestion multilingue
-Si question en français, chercher avec embeddings FR ; si anglais, chercher avec embeddings EN.
-Meilleure segmentation des règles
-Actuellement découpées en chunks par taille → segmenter plutôt par sections logiques (titres, articles).
-Score de confiance
-Si aucun passage n’atteint un seuil → le bot dit “Désolé, je n’ai pas trouvé la règle correspondante”.
 
-🟢 2. Gestion des réponses du LLM
-Forcer la langue de sortie (toujours FR si utilisateur parle FR).
-Réponses formatées
-Titres, puces, exemples concrets.
-Citations directes des fichiers .md si pertinent.
-Mode “strict”
-Si pas de contexte fourni par le retriever → refuser de répondre (au lieu d’inventer).
 
-🟡 3. Améliorations UI/UX
-Historique de chat (sauvegarde des conversations localement ou en DB).
-Avatars + bulles différenciées (ex. logo basket pour le bot).
-Indication de “pensée” (loading animé pendant la génération).
-Mode clair/sombre.
-Bouton “clear chat”.
+1. Améliorations RAG (retriever) Passer d’un retriever basique → vectoriel Intégrer une base vectorielle (FAISS ou Chroma) pour chercher les passages de règles. Utiliser des embeddings multilingues (ex. sentence-transformers). Gestion multilingue Si question en français, chercher avec embeddings FR ; si anglais, chercher avec embeddings EN. Meilleure segmentation des règles Actuellement découpées en chunks par taille → segmenter plutôt par sections logiques (titres, articles). Score de confiance Si aucun passage n’atteint un seuil → le bot dit “Désolé, je n’ai pas trouvé la règle correspondante”.
+2. Gestion des réponses du LLM Forcer la langue de sortie (toujours FR si utilisateur parle FR). Réponses formatées Titres, puces, exemples concrets. Citations directes des fichiers .md si pertinent. Mode “strict” Si pas de contexte fourni par le retriever → refuser de répondre (au lieu d’inventer).
 
-🟡 4. Contenu et connaissances
-Enrichir backend/data/rules/ :
-Ajouter plus de règles officielles (FIBA, NBA, NCAA).
-Ajouter glossaire de termes (pick-and-roll, alley-oop, etc.).
-Stats et anecdotes :
-Ajouter un fichier fun_facts.md avec records NBA, grands joueurs, etc.
-Permettre au retriever de ressortir ça aussi.
-FAQ pour utilisateurs débutants (ex : “Comment dribbler correctement ?”).
+3. Améliorations UI/UX Historique de chat (sauvegarde des conversations localement ou en DB). Avatars + bulles différenciées (ex. logo basket pour le bot). Indication de “pensée” (loading animé pendant la génération). Mode clair/sombre. Bouton “clear chat”.
 
-🟠 5. Hébergement et performance
-Déploiement backend : Render, Railway, ou VPS perso.
-Déploiement frontend : Vercel, Netlify.
-Cache local pour ne pas réinterroger Ollama si la question est identique.
-Monitoring : logs des requêtes + temps de réponse.
+4. Contenu et connaissances Enrichir backend/data/rules/ : Ajouter plus de règles officielles (FIBA, NBA, NCAA). Ajouter glossaire de termes (pick-and-roll, alley-oop, etc.). Stats et anecdotes : Ajouter un fichier fun_facts.md avec records NBA, grands joueurs, etc. Permettre au retriever de ressortir ça aussi. FAQ pour utilisateurs débutants (ex : “Comment dribbler correctement ?”).
 
-🔴 6. Bonus avancés
-Mode entraînement joueur
-Donner des exercices de dribble, shoot, condition physique.
-Mode quiz
-Le bot pose des questions de règles à l’utilisateur.
-Personnalité configurable
-Ex : bot sérieux (arbitre) ou fun (commentateur NBA).
-Multi-LLM
-Utiliser Ollama Mistral pour les règles → fallback sur un modèle plus costaud (Claude, GPT-4) pour les stats récentes.
+5. Hébergement et performance Déploiement backend : Render, Railway, ou VPS perso. Déploiement frontend : Vercel, Netlify. Cache local pour ne pas réinterroger Ollama si la question est identique. Monitoring : logs des requêtes + temps de réponse.
 
->>>>>>> 1d56de65a7acd3ea753c3e943f87a081ef33f6d2
----
-
-## ⚠️ Note importante : gestion des secrets
-
-- Le fichier `.env` **ne doit pas être versionné** (ajouté au `.gitignore`)
-- Fournir un `.env.example` pour partager la structure sans clés sensibles
-
+6. Bonus avancés Mode entraînement joueur Donner des exercices de dribble, shoot, condition physique. Mode quiz Le bot pose des questions de règles à l’utilisateur. Personnalité configurable Ex : bot sérieux (arbitre) ou fun (commentateur NBA). Multi-LLM Utiliser Ollama Mistral pour les règles → fallback sur un modèle plus costaud (Claude, GPT-4) pour les stats récentes.
 ---
